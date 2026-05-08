@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jhon Narváez | Perfil Profesional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .text-sena-green { color: #39A900; }
+        .bg-sena-blue { background-color: #00324D; }
+        .hover-scale { transition: transform 0.3s ease; }
+        .hover-scale:hover { transform: translateY(-5px); }
+        .profile-border { border: 8px solid white; outline: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <header class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-sena-blue rounded-lg flex items-center justify-center text-white font-bold">JN</div>
+                <span class="font-extrabold tracking-tighter text-xl text-sena-blue">ADSO.<span class="text-sena-green">DEV</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 text-sm font-semibold uppercase tracking-wider text-slate-600">
+                <a href="#perfil" class="hover:text-sena-green transition-colors">Perfil</a>
+                <a href="#competencias" class="hover:text-sena-green transition-colors">Competencias</a>
+                <a href="#experiencia" class="hover:text-sena-green transition-colors">Experiencia</a>
+                <a href="#contacto" class="bg-sena-blue text-white px-5 py-2 rounded-full hover:bg-slate-800 transition-all">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="pt-32 pb-20 px-6 bg-gradient-to-b from-slate-50 to-white">
+        <div class="container mx-auto max-w-5xl">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="flex-1 space-y-6 text-center md:text-left">
+                    <div class="inline-block px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-xs font-black uppercase tracking-widest">
+                        Etapa Productiva | Ficha: 2879649
+                    </div>
+                    <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 leading-tight">
+                        Jhon Esteban <br/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-sena-blue to-sena-green">Narváez Enríquez</span>
+                    </h1>
+                    <p class="text-xl text-slate-500 font-medium max-w-2xl leading-relaxed">
+                        Analista y Desarrollador de Software enfocado en la integridad de datos, automatización de procesos y creación de soluciones digitales escalables.
+                    </p>
+                    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                        <a href="mailto:enarvaez533@gmail.com" class="px-8 py-4 bg-sena-blue text-white rounded-2xl font-bold shadow-xl shadow-blue-900/20 hover:scale-105 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-envelope"></i> Enviar Correo
+                        </a>
+                        <a href="https://github.com/Esteban-N15" target="_blank" class="px-8 py-4 border-2 border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-slate-50 transition-all flex items-center gap-2">
+                            <i class="fa-brands fa-github text-xl"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- ESPACIO DE LA FOTO -->
+                <div class="relative">
+                    <div class="w-72 h-72 md:w-80 md:h-80 bg-slate-200 rounded-[3rem] overflow-hidden profile-border shadow-2xl relative z-10">
+                        <!-- Referencia a tu archivo local perfil.jpeg -->
+                        <img src="EstebanNarvaez/MIOS/perfil.jpeg" alt="Jhon Esteban Narváez" class="w-full h-full object-cover scale-105" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Jhon'">
+                    </div>
+                    <!-- Decoración debajo de la foto -->
+                    <div class="absolute -bottom-4 -left-4 w-72 h-72 bg-sena-green/10 rounded-[3rem] -rotate-6"></div>
+                    <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-3 border border-slate-100 z-20">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-200">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Certificado por</p>
+                            <p class="text-xs font-bold text-slate-800">SENA ADSO 2026</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="perfil" class="py-20 px-6">
+        <div class="container mx-auto max-w-4xl bg-sena-blue rounded-[3rem] p-8 md:p-16 text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-sena-green rounded-full blur-[120px] opacity-20 -mr-32 -mt-32"></div>
+            <div class="relative z-10 space-y-6">
+                <h2 class="text-3xl font-bold flex items-center gap-3">
+                    <span class="w-12 h-1 bg-sena-green inline-block"></span>
+                    Perfil Profesional
+                </h2>
+                <p class="text-lg md:text-xl text-slate-300 leading-relaxed font-light">
+                    Tecnólogo en Análisis y Desarrollo de Software con sólida formación en el ciclo de vida de desarrollo de sistemas. Experiencia práctica en la gestión, normalización y auditoría de bases de datos masivas, así como en la creación de prototipos web para la visualización de métricas. Capacidad demostrada para automatizar procesos manuales mediante lógica de programación y optimizar flujos de comunicación técnica.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="competencias" class="py-20 px-6 bg-slate-50">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16 space-y-4">
+                <h2 class="text-4xl font-extrabold text-slate-900 uppercase tracking-tight">Competencias <span class="text-sena-green">Técnicas</span></h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Desarrollo -->
+                <div class="glass-card p-8 rounded-[2rem] hover-scale shadow-sm">
+                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6">
+                        <i class="fa-solid fa-code text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Desarrollo y Prototipado</h3>
+                    <ul class="space-y-3 text-slate-500 text-sm font-medium">
+                        <li>• Análisis de Requisitos Funcionales</li>
+                        <li>• Diseño de Dashboards y Métricas</li>
+                        <li>• Programación de Lógica Estadística</li>
+                    </ul>
+                </div>
+                <!-- Datos -->
+                <div class="glass-card p-8 rounded-[2rem] hover-scale shadow-sm border-b-4 border-b-sena-green">
+                    <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-sena-green mb-6">
+                        <i class="fa-solid fa-database text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Gestión de Datos</h3>
+                    <ul class="space-y-3 text-slate-500 text-sm font-medium">
+                        <li>• Normalización de Bases Masivas</li>
+                        <li>• Auditoría de Integridad de Datos</li>
+                        <li>• Administración Cloud (Google Drive)</li>
+                    </ul>
+                </div>
+                <!-- Soporte -->
+                <div class="glass-card p-8 rounded-[2rem] hover-scale shadow-sm">
+                    <div class="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 mb-6">
+                        <i class="fa-solid fa-check-double text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">QA y Soporte</h3>
+                    <ul class="space-y-3 text-slate-500 text-sm font-medium">
+                        <li>• Aseguramiento de Calidad (QA)</li>
+                        <li>• Soporte a Identidad Digital</li>
+                        <li>• Comunicación Técnica Asertiva</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experiencia" class="py-20 px-6">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-3xl font-black text-slate-900 mb-12 flex items-center gap-4">
+                <i class="fa-solid fa-briefcase text-sena-green"></i>
+                Experiencia Destacada
+            </h2>
+
+            <div class="space-y-8">
+                <div class="p-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-xl relative overflow-hidden">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+                        <div>
+                            <h3 class="text-2xl font-extrabold text-sena-blue">SENA - CTT</h3>
+                            <p class="text-sena-green font-bold uppercase tracking-widest text-xs mt-1">Apoyo Técnico en Coordinación Académica</p>
+                        </div>
+                        <span class="text-slate-400 font-bold text-sm">2025 - PRESENTE</span>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl">
+                            <i class="fa-solid fa-bolt text-sena-green mt-1"></i>
+                            <p class="text-sm font-medium text-slate-600">Automatización de encuestas de Bienestar reduciendo tiempos de procesamiento.</p>
+                        </div>
+                        <div class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl">
+                            <i class="fa-solid fa-database text-sena-green mt-1"></i>
+                            <p class="text-sm font-medium text-slate-600">Liderazgo en normalización de bases de datos de fichas y aprendices.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto" class="bg-slate-900 pt-20 pb-10 text-white rounded-t-[4rem]">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="grid md:grid-cols-2 gap-16 mb-20">
+                <div class="space-y-6">
+                    <h2 class="text-4xl font-black">¿Hablamos?</h2>
+                    <div class="space-y-4">
+                        <p class="flex items-center gap-3 text-slate-400"><i class="fa-solid fa-phone text-sena-green"></i> +57 318 275 9298</p>
+                        <p class="flex items-center gap-3 text-slate-400"><i class="fa-solid fa-envelope text-sena-green"></i> enarvaez533@gmail.com</p>
+                        <p class="flex items-center gap-3 text-slate-400"><i class="fa-solid fa-location-dot text-sena-green"></i> Ipiales / Bogotá D.C.</p>
+                    </div>
+                </div>
+                <div class="text-center md:text-right flex flex-col justify-center items-center md:items-end">
+                    <div class="flex gap-4 mb-6">
+                        <a href="https://github.com/Esteban-N15" target="_blank" class="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-sena-green transition-all text-2xl">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                    </div>
+                    <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">© 2025 Jhon Esteban Narváez Enríquez</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

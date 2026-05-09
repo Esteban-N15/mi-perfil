@@ -1,164 +1,401 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jhon Narváez | Perfil Profesional</title>
+    <title>Jhon Esteban | Arquitecto de Soluciones & Resiliente</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .text-sena-green { color: #39A900; }
-        .bg-sena-blue { background-color: #00324D; }
-        .hover-scale { transition: transform 0.3s ease; }
-        .hover-scale:hover { transform: translateY(-5px); }
-        .profile-border { border: 8px solid white; outline: 1px solid #e2e8f0; }
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Outfit:wght@200;400;800&display=swap');
+
+        :root {
+            --cosmos-dark: #020408;
+            --nebula-blue: #0ea5e9;
+            --nebula-purple: #6366f1;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--cosmos-dark);
+            color: #e2e8f0;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        /* Canvas para Three.js */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Capa de interacción para mover la cámara */
+        #interaction-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .glass-card {
+            background: rgba(10, 15, 28, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: var(--nebula-blue);
+            box-shadow: 0 0 50px rgba(14, 165, 233, 0.2);
+            transform: translateY(-8px) scale(1.01);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-wrapper {
+            position: relative;
+            padding: 20px;
+        }
+
+        .profile-img-main {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 30px rgba(14, 165, 233, 0.3);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* Badge de Resiliencia */
+        .resilience-tag {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7dd3fc;
+        }
+
+        section {
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--nebula-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
     </style>
 </head>
-<body class="text-slate-800">
+<body>
 
-    <header class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-sena-blue rounded-lg flex items-center justify-center text-white font-bold">JN</div>
-                <span class="font-extrabold tracking-tighter text-xl text-sena-blue">ADSO.<span class="text-sena-green">DEV</span></span>
-            </div>
-            <div class="hidden md:flex items-center gap-8 text-sm font-semibold uppercase tracking-wider text-slate-600">
-                <a href="#perfil" class="hover:text-sena-green transition-colors">Perfil</a>
-                <a href="#competencias" class="hover:text-sena-green transition-colors">Competencias</a>
-                <a href="#experiencia" class="hover:text-sena-green transition-colors">Experiencia</a>
-                <a href="#contacto" class="bg-sena-blue text-white px-5 py-2 rounded-full hover:bg-slate-800 transition-all">Contacto</a>
-            </div>
-        </nav>
-    </header>
+    <canvas id="bg-canvas"></canvas>
+    <div id="interaction-layer"></div>
 
-    <section class="pt-32 pb-20 px-6 bg-gradient-to-b from-slate-50 to-white">
-        <div class="container mx-auto max-w-5xl">
-            <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="flex-1 space-y-6 text-center md:text-left">
-                    <div class="inline-block px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-xs font-black uppercase tracking-widest">
-                        Etapa Productiva | Ficha: 2879649
+    <!-- Navegación -->
+    <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center bg-black/40 backdrop-blur-md border-b border-white/5">
+        <div class="text-2xl font-black tracking-tighter">
+            <span class="text-white">JHON</span><span class="text-sky-500">.</span>
+        </div>
+        <div class="hidden md:flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em]">
+            <a href="#inicio" class="nav-link">Centro</a>
+            <a href="#resiliencia" class="nav-link">Resiliencia</a>
+            <a href="#formacion" class="nav-link">Órbita</a>
+            <a href="#contacto" class="nav-link">Señal</a>
+        </div>
+    </nav>
+
+    <main>
+        
+        <!-- HERO - EL SOL CENTRAL -->
+        <section id="inicio" class="min-h-screen flex flex-col items-center justify-center text-center px-6">
+            <div class="profile-wrapper mb-8">
+                <img src="perfil.jpeg" alt="Jhon Esteban" class="profile-img-main" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=JhonEsteban'">
+            </div>
+            
+            <div class="flex items-center gap-3 mb-6">
+                <span class="w-8 h-[1px] bg-sky-500"></span>
+                <span class="text-xs uppercase tracking-[0.5em] text-sky-400 font-bold">Arquitecto de Soluciones</span>
+                <span class="w-8 h-[1px] bg-sky-500"></span>
+            </div>
+            
+            <h1 class="text-6xl md:text-9xl font-black mb-6 tracking-tighter leading-none italic">
+                ESTEBAN <span class="gradient-text">NARVÁEZ</span>
+            </h1>
+            
+            <p class="text-lg md:text-2xl text-slate-400 max-w-3xl font-light leading-relaxed">
+                Transformando la complejidad en <span class="text-white border-b border-sky-500/50">sistemas de alta eficiencia</span> a través de la resiliencia y el aprendizaje continuo.
+            </p>
+            
+            <div class="mt-12 flex flex-wrap gap-5 justify-center">
+                <a href="#formacion" class="px-10 py-5 bg-sky-600 text-white rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:bg-sky-500 transition-all shadow-[0_0_20px_rgba(14,165,233,0.3)]">
+                    Ver Trayectoria
+                </a>
+                <a href="https://wa.me/573182759298" class="px-10 py-5 border border-white/10 bg-white/5 rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:bg-white/10 transition-all">
+                    Contacto Directo
+                </a>
+            </div>
+        </section>
+
+        <!-- FILOSOFÍA DE RESILIENCIA -->
+        <section id="resiliencia" class="py-32 px-6">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="glass-card p-12 relative overflow-hidden group">
+                    <div class="absolute -top-10 -right-10 text-[200px] text-white opacity-[0.02] group-hover:rotate-12 transition-transform duration-1000">
+                        <i class="fa-solid fa-microchip"></i>
                     </div>
-                    <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 leading-tight">
-                        Jhon Esteban <br/>
-                        <span class="text-sena-blue">Narváez Enríquez</span>
-                    </h1>
-                    <p class="text-xl text-slate-500 font-medium max-w-2xl leading-relaxed">
-                        Analista y Desarrollador de Software enfocado en la integridad de datos, automatización de procesos y creación de soluciones digitales escalables.
-                    </p>
-                    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                        <a href="mailto:enarvaez533@gmail.com" class="px-8 py-4 bg-sena-blue text-white rounded-2xl font-bold shadow-xl shadow-blue-900/20 hover:scale-105 transition-all flex items-center gap-2">
-                            <i class="fa-solid fa-envelope"></i> Enviar Correo
-                        </a>
-                        <a href="https://github.com/Esteban-N15" target="_blank" class="px-8 py-4 border-2 border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-slate-50 transition-all flex items-center gap-2">
-                            <i class="fa-brands fa-github text-xl"></i> GitHub
-                        </a>
+                    <h2 class="text-4xl font-black mb-8 italic">ADN <span class="text-sky-500">RESILIENTE</span></h2>
+                    <div class="space-y-6 text-slate-300 text-lg">
+                        <p>Mi mentalidad se basa en la <span class="text-white font-bold">resolución absoluta</span>. Donde otros ven un error del sistema, yo veo una ecuación que aún no ha sido resuelta.</p>
+                        <p>Cada desafío técnico es una oportunidad para expandir mi mapa de conocimiento. Mi capacidad de adaptación me permite navegar desde la seguridad física hasta la arquitectura de software con la misma precisión.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-3 mt-10">
+                        <span class="resilience-tag">Resolución Crítica</span>
+                        <span class="resilience-tag">Aprendizaje Veloz</span>
+                        <span class="resilience-tag">Lógica Estructural</span>
                     </div>
                 </div>
-                
-                <div class="relative">
-                    <div class="w-72 h-72 md:w-80 md:h-80 bg-slate-200 rounded-[3rem] overflow-hidden profile-border shadow-2xl relative z-10">
-                        <!-- RUTA CORREGIDA: Apunta directamente al archivo subido -->
-                        <img src="perfil.jpeg" alt="Jhon Esteban Narváez" class="w-full h-full object-cover scale-105" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Jhon'">
-                    </div>
-                    <div class="absolute -bottom-4 -left-4 w-72 h-72 bg-sena-green/10 rounded-[3rem] -rotate-6"></div>
-                    <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-3 border border-slate-100 z-20">
-                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-200">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="glass-card p-8 flex items-center gap-6">
+                        <div class="text-4xl text-indigo-500"><i class="fa-solid fa-user-shield"></i></div>
                         <div>
-                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Certificado por</p>
-                            <p class="text-xs font-bold text-slate-800">SENA ADSO 2026</p>
+                            <h4 class="font-bold text-white uppercase text-sm tracking-widest">Base en Seguridad</h4>
+                            <p class="text-slate-400 text-sm">Disciplina y vigilancia aplicadas al desarrollo de código seguro.</p>
+                        </div>
+                    </div>
+                    <div class="glass-card p-8 flex items-center gap-6">
+                        <div class="text-4xl text-sky-500"><i class="fa-solid fa-database"></i></div>
+                        <div>
+                            <h4 class="font-bold text-white uppercase text-sm tracking-widest">Gestión de Datos</h4>
+                            <p class="text-slate-400 text-sm">Organización masiva de información con eficiencia de base de datos.</p>
+                        </div>
+                    </div>
+                    <div class="glass-card p-8 flex items-center gap-6">
+                        <div class="text-4xl text-purple-500"><i class="fa-solid fa-language"></i></div>
+                        <div>
+                            <h4 class="font-bold text-white uppercase text-sm tracking-widest">Enfoque Global</h4>
+                            <p class="text-slate-400 text-sm">Competencia en inglés técnico para entornos internacionales.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="perfil" class="py-20 px-6">
-        <div class="container mx-auto max-w-4xl bg-sena-blue rounded-[3rem] p-8 md:p-16 text-white relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-sena-green rounded-full blur-[120px] opacity-20 -mr-32 -mt-32"></div>
-            <div class="relative z-10 space-y-6">
-                <h2 class="text-3xl font-bold flex items-center gap-3">
-                    <span class="w-12 h-1 bg-sena-green inline-block"></span>
-                    Perfil Profesional
-                </h2>
-                <p class="text-lg md:text-xl text-slate-300 leading-relaxed font-light">
-                    Tecnólogo en Análisis y Desarrollo de Software con sólida formación en el ciclo de vida de desarrollo de sistemas. Experiencia práctica en la gestión, normalización y auditoría de bases de datos masivas, así como en la creación de prototipos web para la visualización de métricas. Capacidad demostrada para automatizar procesos manuales mediante lógica de programación y optimizar flujos de comunicación técnica.
-                </p>
-            </div>
-        </div>
-    </section>
+        <!-- FORMACIÓN ROBUSTA (Expansión de cursos) -->
+        <section id="formacion" class="py-32 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+                    <div>
+                        <h3 class="text-5xl font-black tracking-tighter">CONSTELACIÓN DE <span class="text-sky-400">HABILIDADES</span></h3>
+                        <p class="text-slate-500 mt-2">Formación técnica y certificaciones de vanguardia.</p>
+                    </div>
+                    <div class="text-sky-500 font-bold text-xs tracking-[0.3em] uppercase">Sincronizado con el futuro</div>
+                </div>
 
-    <section id="competencias" class="py-20 px-6 bg-slate-50">
-        <div class="container mx-auto max-w-6xl">
-            <div class="text-center mb-16 space-y-4">
-                <h2 class="text-4xl font-extrabold text-slate-900 uppercase tracking-tight">Competencias <span class="text-sena-green">Técnicas</span></h2>
-            </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Educación Core -->
+                    <div class="lg:col-span-2 grid grid-cols-1 gap-6">
+                        <div class="glass-card p-10 bg-gradient-to-r from-sky-900/20 to-transparent border-l-8 border-sky-500">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-sky-500 text-white text-[10px] px-3 py-1 rounded-full font-bold">ACTUAL</span>
+                                <i class="fa-solid fa-graduation-cap text-3xl text-sky-400"></i>
+                            </div>
+                            <h4 class="text-3xl font-black">Tecnología en Análisis y Desarrollo de Software</h4>
+                            <p class="text-sky-200/60 font-bold mt-1 uppercase text-xs tracking-widest">SENA Centro de Tecnologías de Transporte</p>
+                            <p class="mt-6 text-slate-400 leading-relaxed">Especialización en ciclo de vida del software, metodologías ágiles, bases de datos relacionales y desarrollo de interfaces modernas de usuario.</p>
+                        </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass-card p-8 rounded-[2rem] hover-scale shadow-sm">
-                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6">
-                        <i class="fa-solid fa-code text-2xl"></i>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="glass-card p-8 border-t-4 border-indigo-500/50">
+                                <h5 class="text-indigo-400 font-black text-xs tracking-widest uppercase mb-4">Técnico 2018</h5>
+                                <h4 class="text-xl font-bold">Gestión de Archivo</h4>
+                                <p class="text-slate-500 text-sm mt-3 leading-relaxed">Normalización documental y administración de grandes volúmenes de información institucional.</p>
+                            </div>
+                            <div class="glass-card p-8 border-t-4 border-purple-500/50">
+                                <h5 class="text-purple-400 font-black text-xs tracking-widest uppercase mb-4">Técnico 2016</h5>
+                                <h4 class="text-xl font-bold">Sistemas e Informática</h4>
+                                <p class="text-slate-500 text-sm mt-3 leading-relaxed">Soporte técnico integral, arquitectura de hardware y redes de comunicación.</p>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Desarrollo y Prototipado</h3>
-                    <ul class="space-y-3 text-slate-500 text-sm font-medium">
-                        <li>• Análisis de Requisitos Funcionales</li>
-                        <li>• Diseño de Dashboards y Métricas</li>
-                        <li>• Programación de Lógica Estadística</li>
-                    </ul>
-                </div>
-                <div class="glass-card p-8 rounded-[2rem] hover-scale shadow-sm border-b-4 border-b-sena-green">
-                    <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-sena-green mb-6">
-                        <i class="fa-solid fa-database text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Gestión de Datos</h3>
-                    <ul class="space-y-3 text-slate-500 text-sm font-medium">
-                        <li>• Normalización de Bases Masivas</li>
-                        <li>• Auditoría de Integridad de Datos</li>
-                        <li>• Administración Cloud (Google Drive)</li>
-                    </ul>
-                </div>
-                <div class="glass-card p-8 rounded-[2rem] hover-scale shadow-sm">
-                    <div class="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 mb-6">
-                        <i class="fa-solid fa-check-double text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">QA y Soporte</h3>
-                    <ul class="space-y-3 text-slate-500 text-sm font-medium">
-                        <li>• Aseguramiento de Calidad (QA)</li>
-                        <li>• Soporte a Identidad Digital</li>
-                        <li>• Comunicación Técnica Asertiva</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <footer id="contacto" class="bg-slate-900 pt-20 pb-10 text-white rounded-t-[4rem]">
-        <div class="container mx-auto px-6 max-w-6xl">
-            <div class="grid md:grid-cols-2 gap-16 mb-20">
-                <div class="space-y-6">
-                    <h2 class="text-4xl font-black">¿Hablamos?</h2>
-                    <div class="space-y-4">
-                        <p class="flex items-center gap-3 text-slate-400"><i class="fa-solid fa-phone text-sena-green"></i> +57 318 275 9298</p>
-                        <p class="flex items-center gap-3 text-slate-400"><i class="fa-solid fa-envelope text-sena-green"></i> enarvaez533@gmail.com</p>
-                        <p class="flex items-center gap-3 text-slate-400"><i class="fa-solid fa-location-dot text-sena-green"></i> Ipiales / Bogotá D.C.</p>
+                    <!-- Lista de Cursos Detallada -->
+                    <div class="glass-card p-10">
+                        <h4 class="font-black text-sm tracking-[0.3em] text-white mb-8 flex items-center gap-3">
+                            <span class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
+                            CERTIFICACIONES
+                        </h4>
+                        <div class="space-y-8">
+                            <div class="relative pl-6 border-l border-white/10">
+                                <div class="absolute -left-1 top-1 w-2 h-2 bg-sky-500 rounded-full"></div>
+                                <h6 class="text-white font-bold text-sm">IA en la Práctica</h6>
+                                <p class="text-slate-500 text-[10px] uppercase font-bold">Dazzars Latam | 2025</p>
+                            </div>
+                            <div class="relative pl-6 border-l border-white/10">
+                                <div class="absolute -left-1 top-1 w-2 h-2 bg-sky-500 rounded-full"></div>
+                                <h6 class="text-white font-bold text-sm">English Does Work (Nivel 5)</h6>
+                                <p class="text-slate-500 text-[10px] uppercase font-bold">SENA | B1+ Intermedio</p>
+                            </div>
+                            <div class="relative pl-6 border-l border-white/10">
+                                <div class="absolute -left-1 top-1 w-2 h-2 bg-sky-500 rounded-full"></div>
+                                <h6 class="text-white font-bold text-sm">Desarrollo Web con PHP</h6>
+                                <h6 class="text-white font-bold text-sm">QA: Pruebas de Software</h6>
+                                <p class="text-slate-500 text-[10px] uppercase font-bold">SENA Regional Cauca</p>
+                            </div>
+                            <div class="relative pl-6 border-l border-white/10">
+                                <div class="absolute -left-1 top-1 w-2 h-2 bg-sky-500 rounded-full"></div>
+                                <h6 class="text-white font-bold text-sm">Medios Tecnológicos</h6>
+                                <p class="text-slate-500 text-[10px] uppercase font-bold">Cogno Seguridad Ltda.</p>
+                            </div>
+                            <div class="relative pl-6 border-l border-white/10">
+                                <div class="absolute -left-1 top-1 w-2 h-2 bg-sky-500 rounded-full"></div>
+                                <h6 class="text-white font-bold text-sm">Excel Herramientas Ofimáticas</h6>
+                                <p class="text-slate-500 text-[10px] uppercase font-bold">SENA | Nivel Avanzado</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="text-center md:text-right flex flex-col justify-center items-center md:items-end">
-                    <div class="flex gap-4 mb-6">
-                        <a href="https://github.com/Esteban-N15" target="_blank" class="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-sena-green transition-all text-2xl">
-                            <i class="fa-brands fa-github"></i>
-                        </a>
-                    </div>
-                    <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">© 2025 Jhon Esteban Narváez Enríquez</p>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- CONTACTO -->
+        <section id="contacto" class="py-32 px-6">
+            <div class="max-w-4xl mx-auto glass-card p-20 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-tr from-sky-600/10 to-transparent pointer-events-none"></div>
+                <h3 class="text-5xl md:text-7xl font-black mb-8 italic">CONECTEMOS EL <span class="text-sky-400">FUTURO</span></h3>
+                <p class="text-slate-400 mb-12 text-xl font-light">¿Tienes un problema complejo? Yo tengo la solución resiliente.</p>
+                <div class="flex flex-wrap justify-center gap-6">
+                    <a href="mailto:enarvaez533@gmail.com" class="px-12 py-5 bg-white text-black rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-sky-400 hover:text-white transition-all shadow-xl">
+                        Email
+                    </a>
+                    <a href="https://wa.me/573182759298" class="px-12 py-5 border border-white/10 bg-white/5 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-white/10 transition-all">
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-20 text-center border-t border-white/5">
+        <p class="text-slate-600 text-[9px] font-bold tracking-[1em] uppercase">© 2026 Esteban Narváez | Misión Resiliencia</p>
     </footer>
 
+    <script>
+        // CONFIGURACIÓN DE UNIVERSO 3D (Three.js)
+        let scene, camera, renderer, stars, planets = [];
+        let mouseX = 0, mouseY = 0;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // Estrellas
+            const starGeometry = new THREE.BufferGeometry();
+            const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.7 });
+            const starVertices = [];
+            for (let i = 0; i < 5000; i++) {
+                const x = (Math.random() - 0.5) * 2000;
+                const y = (Math.random() - 0.5) * 2000;
+                const z = -Math.random() * 2000;
+                starVertices.push(x, y, z);
+            }
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+            stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
+
+            // Planetas Decorativos
+            createPlanet(15, 0x0ea5e9, 40, 20, -100);  // Planeta Azul
+            createPlanet(8, 0x6366f1, -50, -30, -150); // Planeta Indigo
+            createPlanet(5, 0xa855f7, 80, -40, -200);  // Planeta Purpura
+
+            camera.position.z = 50;
+
+            window.addEventListener('resize', onWindowResize);
+            document.addEventListener('mousemove', onMouseMove);
+            animate();
+        }
+
+        function createPlanet(size, color, x, y, z) {
+            const geometry = new THREE.SphereGeometry(size, 32, 32);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: color, 
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15 
+            });
+            const planet = new THREE.Mesh(geometry, material);
+            planet.position.set(x, y, z);
+            scene.add(planet);
+            planets.push({ mesh: planet, speed: Math.random() * 0.005 + 0.002 });
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onMouseMove(event) {
+            mouseX = (event.clientX - window.innerWidth / 2) / 100;
+            mouseY = (event.clientY - window.innerHeight / 2) / 100;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Movimiento suave de cámara basado en ratón
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            // Rotación de estrellas y planetas
+            stars.rotation.y += 0.0002;
+            planets.forEach(p => {
+                p.mesh.rotation.y += p.speed;
+                p.mesh.rotation.x += p.speed * 0.5;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        window.onload = init;
+    </script>
 </body>
 </html>
